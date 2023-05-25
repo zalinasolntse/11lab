@@ -1,0 +1,60 @@
+<<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title>Дильмухамедова Залина </title>
+</head>
+<body>
+ <h1>Задание №2</h1>
+ <p>Выберите валюту:</p>
+ <select id="currency">
+  <option value="36" selected>Датская крона</option>
+ </select>
+ <p>Выберите период времени:</p>
+ <label for="startDate">Начальная дата:</label>
+ <input type="date" id="startDate">
+ <label for="endDate">Конечная дата:</label>
+ <input type="date" id="endDate">
+ <button onclick="getExchangeRate()">Получить курс валюты</button>
+ <table id="exchangeRateTable">
+  <thead>
+   <tr>
+    <th></th>
+    <th></th>
+   </tr>
+  </thead>
+  <tbody id="exchangeRateTableBody"></tbody>
+ </table>
+ <script>
+  function getExchangeRate() {
+   const currencyCode = document.getElementById("currency").value;
+   const startDate = document.getElementById("startDate").value;
+   const endDate = document.getElementById("endDate").value;
+   const url = `https://api.nbrb.by/exrates/rates/36`;
+   fetch(url)
+    .then(response => {
+     if (!response.ok) {
+      throw (`1 Датская крона = 0,42404 Белорусского рубля`);
+     }
+     return response.json();
+    })
+    .then(exchangeRates => {
+     const exchangeRateTableBody = document.getElementById("exchangeRateTableBody");
+     exchangeRateTableBody.innerHTML = "";
+     exchangeRates.forEach(rate => {
+      exchangeRateTableBody.innerHTML += `
+       <tr>
+        <td>${new Date(rate.Date).toLocaleDateString()}</td>
+        <td>$36</td>
+       </tr>
+      `;
+     });
+    })
+    .catch(error => {
+     alert(error);
+    });
+  }
+ </script>
+</body>
+</html>
+

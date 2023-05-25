@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Дильмухамедова Залина Вариант №6.</title>
+</head>
+<body>
+  <h1>Задание №1</h1>
+  <div id="currency-info"></div>
+  <script>
+    // Создаем новый XMLHttpRequest объект
+    var xhr = new XMLHttpRequest();
+
+    // Определяем адрес запроса
+    var url = 'https://api.nbrb.by/exrates/currencies/36';
+
+    // Открываем соединение с сервером
+    xhr.open('GET', url, true);
+
+    // Устанавливаем заголовки запроса
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // Обрабатываем ответ от сервера
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+
+        // Получаем данные из ответа сервера
+        var data = JSON.parse(xhr.responseText);
+
+        // Создаем таблицу для отображения данных
+        var table = document.createElement('table');
+        var headerRow = document.createElement('tr');
+        var flagCol = document.createElement('th');
+        var countryCol = document.createElement('th');
+        var currencyColEng = document.createElement('th');
+        var currencyColBel = document.createElement('th');
+        var rateCol = document.createElement('th');
+        flagCol.textContent = 'Флаг____';
+        countryCol.textContent = 'Страна____';
+        currencyColEng.textContent = 'Название валюты(англ)___';
+        currencyColBel.textContent = 'Название валюты(белорусс.)___';
+        rateCol.textContent = 'Курс';
+
+        // Добавляем заголовки в таблицу
+        headerRow.appendChild(flagCol);
+        headerRow.appendChild(countryCol);
+        headerRow.appendChild(currencyColEng);
+        headerRow.appendChild(currencyColBel);
+        headerRow.appendChild(rateCol);
+        table.appendChild(headerRow);
+
+        // Создаем строку с информацией о валюте
+        var row = document.createElement('tr');
+        var flagCell = document.createElement('td');
+        var flagImg = document.createElement('img');
+        flagImg.src = 'https://www.resizepixel.com/Image/xbbyqmkam/Preview/png-transparent-flag-of-denmark-.png?v=3060d003-82f4-4078-9ebb-519c5afe4b7c'; // Указываем ссылку на изображение флага
+        flagImg.alt = 'Флаг Дании';
+        flagCell.appendChild(flagImg);
+        var countryCell = document.createElement('td');
+        countryCell.textContent = 'Дания';
+        var currencyCellEng = document.createElement('td');
+        currencyCellEng.textContent = data.Cur_Name_Eng;
+        var currencyCellBel = document.createElement('td');
+        currencyCellBel.textContent = data.Cur_Name;
+        var rateCell = document.createElement('td');
+        rateCell.textContent ="1 Датская крона = 0,42404 Белорусского рубля";
+
+        // Добавляем ячейки в строку
+        row.appendChild(flagCell);
+        row.appendChild(countryCell);
+        row.appendChild(currencyCellEng);
+        row.appendChild(currencyCellBel);
+        row.appendChild(rateCell);
+
+        // Добавляем строку в таблицу
+        table.appendChild(row);
+
+        // Добавляем таблицу на страницу
+        document.getElementById('currency-info').appendChild(table);
+
+      }
+    };
+
+    // Отправляем запрос на сервер
+    xhr.send();
+  </script>
+</body>
+</html>
